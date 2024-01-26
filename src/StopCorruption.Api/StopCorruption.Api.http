@@ -1,0 +1,6 @@
+@StopCorruption.Api_HostAddress = http://localhost:5037
+
+GET {{StopCorruption.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
