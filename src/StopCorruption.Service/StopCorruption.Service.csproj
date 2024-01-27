@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\StopCorruption.Data\StopCorruption.Data.csproj" />
     <ProjectReference Include="..\StopCorruption.Domain\StopCorruption.Domain.csproj" />
   </ItemGroup>
 

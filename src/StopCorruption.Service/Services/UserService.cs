@@ -1,32 +1,90 @@
-﻿using StopCorruption.Service.DTOs.Users;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using StopCorruption.Data.IRepositories;
+using StopCorruption.Domain.Entities;
+using StopCorruption.Service.DTOs.Users;
+using StopCorruption.Service.Exceptions;
 using StopCorruption.Service.Interfaces;
 
 namespace StopCorruption.Service.Services;
 
 public class UserService : IUserService
 {
-    public Task<UserForResultDto> AddAsync(UserForCreationDto dto)
+    private readonly IMapper _mapper;
+    private readonly IUserRepository _userRepository;
+    public UserService(IMapper mapper, IUserRepository userRepository)
     {
-        throw new NotImplementedException();
+        _mapper = mapper;
+        _userRepository = userRepository;
     }
 
-    public Task<UserForResultDto> ModifyAsync(long id, UserForUpdateDto dto)
+    public async Task<UserForResultDto> AddAsync(UserForCreationDto dto)
     {
-        throw new NotImplementedException();
+        var IsExistTelegramId = await _userRepository.SelectAll()
+            .Where(t => t.TelegramId == dto.TelegramId)
+            .AsNoTracking()
+            .FirstOrDefaultAsync();
+
+        if (IsExistTelegramId is not null)
+            throw new CorruptionException(400, "User is already exist");
+
+        var mappedUser = _mapper.Map<User>(dto);
+        mappedUser.CreatedAt = DateTime.UtcNow;
+        var createdUser = await _userRepository.InsertAsync(mappedUser);
+
+        return _mapper.Map<UserForResultDto>(createdUser);
+
     }
 
-    public Task<bool> RemoveAsync(long Id)
+    public async Task<UserForResultDto> ModifyAsync(long id, UserForUpdateDto dto)
     {
-        throw new NotImplementedException();
+        var user = await _userRepository.SelectAll()
+            .Where(u => u.Id == id)
+            .AsNoTracking()
+            .FirstOrDefaultAsync();
+
+        if (user is null)
+            throw new CorruptionException(404, "User is not found");
+
+        user.UpdatedAt = DateTime.UtcNow;   
+        var person = _mapper.Map(dto, user);
+        await _userRepository.UpdateAsync(user);
+
+        return _mapper.Map<UserForResultDto>(person);
     }
 
-    public Task<IEnumerable<UserForResultDto>> RetrieveAllAsync()
+    public async Task<bool> RemoveAsync(long Id)
     {
-        throw new NotImplementedException();
+        var user = await _userRepository.SelectAll()
+            .Where(u => u.Id == Id)
+            .AsNoTracking()
+            .FirstOrDefaultAsync();
+
+        if (user is null)
+            throw new CorruptionException(404, "User is not found");
+
+        await _userRepository.DeleteAsync(Id);
+        
+        return true;
     }
 
-    public Task<UserForResultDto> RetrieveByIdAsync(long id)
+    public async Task<IEnumerable<UserForResultDto>> RetrieveAllAsync()
     {
-        throw new NotImplementedException();
+        var users = await _userRepository.SelectAll().ToListAsync();
+
+        return _mapper.Map<IEnumerable<UserForResultDto>>(users);
+    }
+
+    public async Task<UserForResultDto> RetrieveByIdAsync(long id)
+    {
+        var user = await _userRepository.SelectAll()
+            .Where(u => u.Id == id)
+            .AsNoTracking()
+            .FirstOrDefaultAsync();
+
+        if (user is null)
+            throw new CorruptionException(404, "User is not found");
+
+        return _mapper.Map<UserForResultDto>(user);
     }
 }
