@@ -1,6 +1,6 @@
 ﻿namespace StopCorruption.Domain.Enums;
 
-public enum Status
+public enum Status : byte
 {
     Submitted = 1,
     Inprocces,

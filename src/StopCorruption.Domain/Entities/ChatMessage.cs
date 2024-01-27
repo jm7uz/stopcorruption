@@ -4,9 +4,9 @@ namespace StopCorruption.Domain.Entities;
 
 public class ChatMessage : Auditable
 {
-    public long SenderUserId { get; set; }
-    public string MediaPath { get; set; }
-    public DateTime SendDate { get; set; }
+    public long FromId { get; set; }
+    public string? MediaPath { get; set; }
+    public DateTime SendDate { get; set; } 
     public string Content { get; set; }
     public long ApplicationId { get; set; }
 }

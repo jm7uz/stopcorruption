@@ -6,7 +6,7 @@ public class UserForResultDto
 {
     public long Id { get; set; }
     public bool IsOneID { get; set; }
-    public long OneID { get; set; }
+    public string OneID { get; set; }
     public long TelegramId { get; set; }
-    public ApplicationForResultDto Application { get; set; }
+    public ICollection<ApplicationForResultDto> Application { get; set; }
 }

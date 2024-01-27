@@ -6,8 +6,8 @@ public class StatisticForUpdateDto
     public float CurruptionValue { get; set; }
     public DateTime Date { get; set; }
     public string Period { get; set; }
-    public string Sector { get; set; }
-    public string Location { get; set; }
-    public string CorruptionType { get; set; }
+    public long SectorId { get; set; }
+    public string latitude { get; set; }
+    public string longitude { get; set; }
     public string InvestigationOutcome { get; set; }
 }
