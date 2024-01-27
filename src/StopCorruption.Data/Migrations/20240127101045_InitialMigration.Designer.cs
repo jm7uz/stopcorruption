@@ -12,7 +12,7 @@ using StopCorruption.Data.DbContexts;
 namespace StopCorruption.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240127071233_InitialMigration")]
+    [Migration("20240127101045_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -36,9 +36,8 @@ namespace StopCorruption.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("DateSubmitted")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<DateTime>("DateSubmitted")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -62,21 +61,22 @@ namespace StopCorruption.Data.Migrations
                     b.Property<long?>("StatisticId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
+                    b.Property<byte>("Status")
+                        .HasColumnType("smallint");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SectorId");
 
                     b.HasIndex("StatisticId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Application");
                 });
@@ -99,15 +99,14 @@ namespace StopCorruption.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<long>("FromId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("MediaPath")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("SendDate")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<long>("SenderUserId")
-                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -128,7 +127,7 @@ namespace StopCorruption.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("SectorName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -148,10 +147,6 @@ namespace StopCorruption.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("CorruptionType")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -162,10 +157,6 @@ namespace StopCorruption.Data.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("InvestigationOutcome")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -183,6 +174,14 @@ namespace StopCorruption.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("latitude")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("longitude")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("SectorId");
@@ -198,17 +197,15 @@ namespace StopCorruption.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("ApplicationId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsOneID")
                         .HasColumnType("boolean");
 
-                    b.Property<long>("OneID")
-                        .HasColumnType("bigint");
+                    b.Property<string>("OneID")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<long>("TelegramId")
                         .HasColumnType("bigint");
@@ -217,8 +214,6 @@ namespace StopCorruption.Data.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationId");
 
                     b.ToTable("User");
                 });
@@ -232,8 +227,14 @@ namespace StopCorruption.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("StopCorruption.Domain.Entities.Statistic", null)
-                        .WithMany("Application")
+                        .WithMany("Applications")
                         .HasForeignKey("StatisticId");
+
+                    b.HasOne("StopCorruption.Domain.Entities.User", null)
+                        .WithMany("Applications")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Sector");
                 });
@@ -249,20 +250,14 @@ namespace StopCorruption.Data.Migrations
                     b.Navigation("Sector");
                 });
 
-            modelBuilder.Entity("StopCorruption.Domain.Entities.User", b =>
-                {
-                    b.HasOne("StopCorruption.Domain.Entities.Application", "Application")
-                        .WithMany()
-                        .HasForeignKey("ApplicationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Application");
-                });
-
             modelBuilder.Entity("StopCorruption.Domain.Entities.Statistic", b =>
                 {
-                    b.Navigation("Application");
+                    b.Navigation("Applications");
+                });
+
+            modelBuilder.Entity("StopCorruption.Domain.Entities.User", b =>
+                {
+                    b.Navigation("Applications");
                 });
 #pragma warning restore 612, 618
         }

@@ -18,8 +18,8 @@ namespace StopCorruption.Data.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    SenderUserId = table.Column<long>(type: "bigint", nullable: false),
-                    MediaPath = table.Column<string>(type: "text", nullable: false),
+                    FromId = table.Column<long>(type: "bigint", nullable: false),
+                    MediaPath = table.Column<string>(type: "text", nullable: true),
                     SendDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Content = table.Column<string>(type: "text", nullable: false),
                     ApplicationId = table.Column<long>(type: "bigint", nullable: false),
@@ -37,13 +37,30 @@ namespace StopCorruption.Data.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    SectorName = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Sector", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "User",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    IsOneID = table.Column<bool>(type: "boolean", nullable: false),
+                    OneID = table.Column<string>(type: "text", nullable: false),
+                    TelegramId = table.Column<long>(type: "bigint", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_User", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -57,8 +74,8 @@ namespace StopCorruption.Data.Migrations
                     Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Period = table.Column<string>(type: "text", nullable: false),
                     SectorId = table.Column<long>(type: "bigint", nullable: false),
-                    Location = table.Column<string>(type: "text", nullable: false),
-                    CorruptionType = table.Column<string>(type: "text", nullable: false),
+                    latitude = table.Column<string>(type: "text", nullable: false),
+                    longitude = table.Column<string>(type: "text", nullable: false),
                     InvestigationOutcome = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
@@ -84,9 +101,9 @@ namespace StopCorruption.Data.Migrations
                     SectorId = table.Column<long>(type: "bigint", nullable: false),
                     OrganizationName = table.Column<string>(type: "text", nullable: false),
                     NameOftheAccused = table.Column<string>(type: "text", nullable: false),
-                    DateSubmitted = table.Column<string>(type: "text", nullable: false),
-                    UserId = table.Column<string>(type: "text", nullable: false),
-                    Status = table.Column<int>(type: "integer", nullable: false),
+                    DateSubmitted = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    Status = table.Column<byte>(type: "smallint", nullable: false),
                     MediaPath = table.Column<string>(type: "text", nullable: false),
                     StatisticId = table.Column<long>(type: "bigint", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -106,28 +123,10 @@ namespace StopCorruption.Data.Migrations
                         column: x => x.StatisticId,
                         principalTable: "Statistics",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "User",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    IsOneID = table.Column<bool>(type: "boolean", nullable: false),
-                    OneID = table.Column<long>(type: "bigint", nullable: false),
-                    TelegramId = table.Column<long>(type: "bigint", nullable: false),
-                    ApplicationId = table.Column<long>(type: "bigint", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_User", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_User_Application_ApplicationId",
-                        column: x => x.ApplicationId,
-                        principalTable: "Application",
+                        name: "FK_Application_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -143,30 +142,30 @@ namespace StopCorruption.Data.Migrations
                 column: "StatisticId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Application_UserId",
+                table: "Application",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Statistics_SectorId",
                 table: "Statistics",
                 column: "SectorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_User_ApplicationId",
-                table: "User",
-                column: "ApplicationId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ChatMessages");
-
-            migrationBuilder.DropTable(
-                name: "User");
-
-            migrationBuilder.DropTable(
                 name: "Application");
 
             migrationBuilder.DropTable(
+                name: "ChatMessages");
+
+            migrationBuilder.DropTable(
                 name: "Statistics");
+
+            migrationBuilder.DropTable(
+                name: "User");
 
             migrationBuilder.DropTable(
                 name: "Sector");
