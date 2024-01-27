@@ -10,6 +10,6 @@ public class AppDbContext : DbContext
 
     public DbSet<Application> Application { get; set; }
     public DbSet<User> User { get; set; }
-    public DbSet<Statistics> Statistics { get; set; }
+    public DbSet<Statistic> Statistics { get; set; }
     public DbSet<ChatMessage> ChatMessages { get; set; }
 }
