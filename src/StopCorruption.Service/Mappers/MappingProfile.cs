@@ -5,17 +5,12 @@ using StopCorruption.Service.DTOs.ChatMessages;
 using StopCorruption.Service.DTOs.Sectors;
 using StopCorruption.Service.DTOs.Statistics;
 using StopCorruption.Service.DTOs.Users;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StopCorruption.Service.Mappers
 {
     public class MappingProfile : Profile
     {
-        public MappingProfile() 
+        public MappingProfile()
         {
             CreateMap<User, UserForCreationDto>().ReverseMap();
             CreateMap<User, UserForUpdateDto>().ReverseMap();
