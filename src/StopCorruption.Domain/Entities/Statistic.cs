@@ -2,7 +2,7 @@
 
 namespace StopCorruption.Domain.Entities;
 
-public class Statistics : Auditable
+public class Statistic : Auditable
 {
     public string Name { get; set; }
     public float CurruptionValue { get; set; }

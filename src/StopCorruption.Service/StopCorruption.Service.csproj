@@ -13,7 +13,6 @@
   <ItemGroup>
     <Folder Include="DTOs\Applications\" />
     <Folder Include="DTOs\ChatMessages\" />
-    <Folder Include="DTOs\Statistics\" />
   </ItemGroup>
 
 </Project>
