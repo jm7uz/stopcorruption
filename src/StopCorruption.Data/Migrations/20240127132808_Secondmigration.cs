@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace StopCorruption.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class Secondmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -106,6 +106,7 @@ namespace StopCorruption.Data.Migrations
                     Status = table.Column<byte>(type: "smallint", nullable: false),
                     MediaPath = table.Column<string>(type: "text", nullable: false),
                     StatisticId = table.Column<long>(type: "bigint", nullable: true),
+                    UserId1 = table.Column<long>(type: "bigint", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -117,7 +118,7 @@ namespace StopCorruption.Data.Migrations
                         column: x => x.SectorId,
                         principalTable: "Sector",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Application_Statistics_StatisticId",
                         column: x => x.StatisticId,
@@ -128,7 +129,12 @@ namespace StopCorruption.Data.Migrations
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Application_User_UserId1",
+                        column: x => x.UserId1,
+                        principalTable: "User",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -145,6 +151,11 @@ namespace StopCorruption.Data.Migrations
                 name: "IX_Application_UserId",
                 table: "Application",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Application_UserId1",
+                table: "Application",
+                column: "UserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Statistics_SectorId",

@@ -1,4 +1,5 @@
-﻿using StopCorruption.Domain.Enums;
+﻿using StopCorruption.Domain.Entities;
+using StopCorruption.Domain.Enums;
 
 namespace StopCorruption.Service.DTOs.Applications;
 

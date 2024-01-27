@@ -12,8 +12,8 @@ using StopCorruption.Data.DbContexts;
 namespace StopCorruption.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240127101045_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240127133300_Seconddmigreation")]
+    partial class Seconddmigreation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,6 +70,9 @@ namespace StopCorruption.Data.Migrations
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("UserId1")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
 
                     b.HasIndex("SectorId");
@@ -77,6 +80,8 @@ namespace StopCorruption.Data.Migrations
                     b.HasIndex("StatisticId");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Application");
                 });
@@ -230,13 +235,19 @@ namespace StopCorruption.Data.Migrations
                         .WithMany("Applications")
                         .HasForeignKey("StatisticId");
 
-                    b.HasOne("StopCorruption.Domain.Entities.User", null)
-                        .WithMany("Applications")
+                    b.HasOne("StopCorruption.Domain.Entities.User", "User")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("StopCorruption.Domain.Entities.User", null)
+                        .WithMany("Applications")
+                        .HasForeignKey("UserId1");
+
                     b.Navigation("Sector");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("StopCorruption.Domain.Entities.Statistic", b =>
