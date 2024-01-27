@@ -14,5 +14,5 @@ public class Application : Auditable
     public long UserId { get; set; }
     public User User { get; set; }
     public Status Status { get; set; }
-    public string MediaPath { get; set; }
+    public string? MediaPath { get; set; }
 }

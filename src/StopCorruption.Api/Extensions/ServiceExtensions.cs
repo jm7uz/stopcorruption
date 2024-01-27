@@ -13,10 +13,14 @@ public static class ServiceExtensions
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
-        services.AddScoped<IApplicationService, ApplicationService>();
+        //services.AddScoped<IApplicationService, ApplicationService>();
         services.AddScoped<IApplicationRepository, ApplicationRepository>();
 
         services.AddScoped<ISectorService, SectorService>();
         services.AddScoped<ISectorRepository, SectorRepository>();
+
+        services.AddScoped<ChatMessageService, ChatMessageService>();
+        services.AddScoped<ChatMessageRepository, ChatMessageRepository>();
+
     }
 }

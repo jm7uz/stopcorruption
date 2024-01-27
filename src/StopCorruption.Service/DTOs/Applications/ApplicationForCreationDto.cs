@@ -1,5 +1,4 @@
-﻿using StopCorruption.Domain.Entities;
-using StopCorruption.Domain.Enums;
+﻿using StopCorruption.Domain.Enums;
 
 namespace StopCorruption.Service.DTOs.Applications;
 
@@ -12,5 +11,5 @@ public class ApplicationForCreationDto
     public DateTime DateSubmitted { get; set; }
     public long UserId { get; set; }
     public Status Status { get; set; }
-    public string? MediaPath { get; set; }
+    public string MediaPath { get; set; }
 }
