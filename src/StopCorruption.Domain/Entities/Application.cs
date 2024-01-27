@@ -6,7 +6,8 @@ namespace StopCorruption.Domain.Entities;
 public class Application : Auditable
 {
     public string Description { get; set; }
-    public string Sector {  get; set; }
+    public string SectorId {  get; set; }
+    public Sector Sector { get; set; }
     public string OrganizationName { get; set; }
     public string NameOftheAccused { get; set; }
     public string DateSubmitted { get; set; }
