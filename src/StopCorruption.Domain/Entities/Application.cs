@@ -12,6 +12,7 @@ public class Application : Auditable
     public string NameOftheAccused { get; set; }
     public DateTime DateSubmitted { get; set; }
     public long UserId { get; set; }
+    public User User { get; set; }
     public Status Status { get; set; }
-    public string MediaPath { get; set; }
+    public string? MediaPath { get; set; }
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using StopCorruption.Data.DbContexts;
@@ -11,9 +12,11 @@ using StopCorruption.Data.DbContexts;
 namespace StopCorruption.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240127132808_Secondmigration")]
+    partial class Secondmigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,6 +44,7 @@ namespace StopCorruption.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("MediaPath")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("NameOftheAccused")
@@ -157,9 +161,6 @@ namespace StopCorruption.Data.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("District")
-                        .HasColumnType("text");
-
                     b.Property<string>("InvestigationOutcome")
                         .IsRequired()
                         .HasColumnType("text");
@@ -168,11 +169,9 @@ namespace StopCorruption.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("PeriodType")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("Region")
-                        .HasColumnType("integer");
+                    b.Property<string>("Period")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<long>("SectorId")
                         .HasColumnType("bigint");
@@ -229,7 +228,7 @@ namespace StopCorruption.Data.Migrations
                     b.HasOne("StopCorruption.Domain.Entities.Sector", "Sector")
                         .WithMany()
                         .HasForeignKey("SectorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("StopCorruption.Domain.Entities.Statistic", null)
@@ -239,7 +238,7 @@ namespace StopCorruption.Data.Migrations
                     b.HasOne("StopCorruption.Domain.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("StopCorruption.Domain.Entities.User", null)

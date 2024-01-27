@@ -11,5 +11,5 @@ public class ApplicationForCreationDto
     public DateTime DateSubmitted { get; set; }
     public long UserId { get; set; }
     public Status Status { get; set; }
-    public string? MediaPath { get; set; }
+    public string MediaPath { get; set; }
 }

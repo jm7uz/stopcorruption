@@ -65,7 +65,7 @@ public class UserService : IUserService
 
         await _userRepository.DeleteAsync(Id);
         
-        return true;
+        return true;    
     }
 
     public async Task<IEnumerable<UserForResultDto>> RetrieveAllAsync()
