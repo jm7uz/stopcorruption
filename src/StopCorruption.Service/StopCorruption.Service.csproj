@@ -11,10 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\ChatMessages\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\StopCorruption.Domain\StopCorruption.Domain.csproj" />
   </ItemGroup>
 
