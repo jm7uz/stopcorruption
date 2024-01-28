@@ -75,13 +75,12 @@ public class UserService : IUserService
         return _mapper.Map<IEnumerable<UserForResultDto>>(users);
     }
 
-    public async Task<UserForResultDto> RetrieveByIdAsync(long id)
+    public async Task<UserForResultDto> RetrieveByTelegramIdAsync(long id)
     {
         var user = await _userRepository.SelectAll()
-            .Where(u => u.Id == id)
+            .Where(u => u.TelegramId == id)
             .AsNoTracking()
             .FirstOrDefaultAsync();
-
         if (user is null)
             throw new CorruptionException(404, "User is not found");
 
