@@ -12,7 +12,7 @@ public class User : Auditable
     public string Phone { get; set; }
     public string Language { get; set; }
     public string passportNumber { get; set; }
-    public string passportIssuedBy { get; set; }    
+    public string passportIssuedBy { get; set; }
 
     [JsonIgnore]
     public ICollection<Application> Applications { get; set; }
