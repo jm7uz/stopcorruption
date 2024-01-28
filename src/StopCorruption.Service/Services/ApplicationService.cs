@@ -13,7 +13,9 @@ public class ApplicationService : IApplicationService
     private readonly IMapper _mapper;
     private readonly IApplicationRepository _applicationRepository;
 
-    public ApplicationService(IMapper mapper, IApplicationRepository applicationRepository)
+    public ApplicationService(IMapper mapper,
+        IApplicationRepository applicationRepository
+        )
     {
         _mapper = mapper;
         _applicationRepository = applicationRepository;

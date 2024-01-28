@@ -2,6 +2,7 @@
 using StopCorruption.Data.Repositries;
 using StopCorruption.Service.Interfaces;
 using StopCorruption.Service.Services;
+using StopCorruption.Services;
 
 namespace StopCorruption.Api.Extensions;
 
@@ -9,21 +10,21 @@ public static class ServiceExtensions
 {
     public static void AddCorruptionService(this IServiceCollection services)
     {
-        services.AddScoped<IUserService, UserService>();
-        services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
-        services.AddScoped<IApplicationService, ApplicationService>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IUserRepository, UserRepository>();
+
         services.AddScoped<IApplicationRepository, ApplicationRepository>();
+        services.AddScoped<IApplicationService, ApplicationService>();
 
-        services.AddScoped<ISectorService, SectorService>();
         services.AddScoped<ISectorRepository, SectorRepository>();
+        services.AddScoped<ISectorService, SectorService>();
 
-        services.AddScoped<IChatMessageService, ChatMessageService>();
         services.AddScoped<IChatMessageRepository, ChatMessageRepository>();
+        services.AddScoped<IChatMessageService, ChatMessageService>();
 
         services.AddScoped<IStatisticService, StatisticService>();
-        services.AddScoped<IStatisticRepository, StatisticRepository>();
 
     }
 }

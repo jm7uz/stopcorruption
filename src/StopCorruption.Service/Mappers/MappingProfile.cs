@@ -3,7 +3,6 @@ using StopCorruption.Domain.Entities;
 using StopCorruption.Service.DTOs.Applications;
 using StopCorruption.Service.DTOs.ChatMessages;
 using StopCorruption.Service.DTOs.Sectors;
-using StopCorruption.Service.DTOs.Statistics;
 using StopCorruption.Service.DTOs.Users;
 
 namespace StopCorruption.Service.Mappers
@@ -19,10 +18,6 @@ namespace StopCorruption.Service.Mappers
             CreateMap<Sector, SectorForCreationDto>().ReverseMap();
             CreateMap<Sector, SectorForUpdateDto>().ReverseMap();
             CreateMap<Sector, SectorForResultDto>().ReverseMap();
-
-            CreateMap<Statistic, StatisticForCreationDto>().ReverseMap();
-            CreateMap<Statistic, StatisticForUpdateDto>().ReverseMap();
-            CreateMap<Statistic, StatisticForResultDto>().ReverseMap();
 
             CreateMap<Application, ApplicationForCreationDto>().ReverseMap();
             CreateMap<Application, ApplicationForUpdateDto>().ReverseMap();

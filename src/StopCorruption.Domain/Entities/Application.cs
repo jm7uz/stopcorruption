@@ -15,4 +15,5 @@ public class Application : Auditable
     public User User { get; set; }
     public Status Status { get; set; }
     public string? MediaPath { get; set; }
+    public PeriodType PeriodType { get; set; }
 }
