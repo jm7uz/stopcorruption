@@ -7,6 +7,8 @@ namespace StopCorruption.Service.DTOs.Applications;
 public class ApplicationForResultDto
 {
     public long Id { get; set; }
+    public string longitude { get; set; }
+    public string latitude { get; set; }
     public string Description { get; set; }
     public long SectorId { get; set; }
     public SectorForResultDto Sector { get; set; }

@@ -5,8 +5,10 @@ namespace StopCorruption.Domain.Entities;
 
 public class Application : Auditable
 {
+    public string longitude {get; set;}
+    public string latitude {get; set;}
     public string Description { get; set; }
-    public long SectorId {  get; set; }
+    public long SectorId { get; set; }
     public Sector Sector { get; set; }
     public string OrganizationName { get; set; }
     public string NameOftheAccused { get; set; }
@@ -14,6 +16,7 @@ public class Application : Auditable
     public long UserId { get; set; }
     public User User { get; set; }
     public Status Status { get; set; }
+    
     public string? MediaPath { get; set; }
     public PeriodType PeriodType { get; set; }
 }
